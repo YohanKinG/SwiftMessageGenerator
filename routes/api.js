@@ -1,88 +1,97 @@
 var express = require('express');
 var router = express.Router();
+var fs = require("fs");
 
-var dogs = [
+var swiftMsg = "";
+
+var block1 = ""; 
+var block2 = "";
+var block3 = "";
+var block4 = "";
+var block5 = "";
+
+var isTrueBlock1 = false;
+var isTrueBlock2 = false;
+var isTrueBlock3 = false;
+var isTrueBlock4 = false;
+var isTrueBlock5 = false;
+
+var mtTypes = [
   {
-    "dog_id": "0",
-    "dog_name": "Ginger"
+    "id": "700",
+    "description": "Issue of a Documentary Credit"
   },
   {
-    "dog_id": "1",
-    "dog_name": "Ruby"
+    "id": "720",
+    "description": "Transfer of a Documentary Credit"
   },
   {
-    "dog_id": "2",
-    "dog_name": "Buddy"
+    "id": "730",
+    "description": "Acknowledgment"
   }
 ];
 
-/* GET all dogs */
-router.get('/dogs/', function(req, res, next) {
-  res.json(dogs);
+var mtFieldSpecification = [
+  {
+    "mtId": "700",
+    "fieldId": "20",
+    "description": "Documentary Credit Number"
+  },
+  {
+    "mtId": "700",
+    "fieldId": "50",
+    "description": "Applicant"
+  },
+  {
+    "mtId": "700",
+    "fieldId": "59",
+    "description": "Beneficiary"
+  },
+  {
+    "mtId": "720",
+    "fieldId": "20",
+    "description": "Documentary Credit Number"
+  },
+  {
+    "mtId": "720",
+    "fieldId": "50",
+    "description": "Applicant"
+  },
+  {
+    "mtId": "720",
+    "fieldId": "59",
+    "description": "Beneficiary"
+  },
+];
+
+if(isTrueBlock1){
+  var ContentBlock1 
+  swiftMsg = swiftMsg.concat(ContentBlock1);
+}
+if(isTrueBlock2){
+  var ContentBlock2
+  swiftMsg = swiftMsg.concat(ContentBlock2);
+}
+if(isTrueBlock3){
+  var ContentBlock3
+  swiftMsg = swiftMsg.concat(ContentBlock3);
+}
+if(isTrueBlock4){
+  var ContentBlock4
+  swiftMsg = swiftMsg.concat(ContentBlock4);
+}
+if(isTrueBlock5){
+  var ContentBlock5
+  swiftMsg = swiftMsg.concat(ContentBlock5);
+}
+
+/* Get the JSON file */
+router.get('/msg/', function(req, res, next) {
+  var stream = fs.createWriteStream("./swiftMsg.txt");
+  stream.once('open',function(){
+    stream.write("Message");
+    stream.end();
+  });
 });
-
-/* PUT replace all dogs */
-router.put('/dogs/', function(req, res, next) {
-  console.log(req.body);
-  dogs = req.body;
-  res.json({"STATUS": "200 OK"});
-});
-
-/* POST create a new dog */
-router.post('/dogs/', function(req, res, next) {
-  dogs.push(req.body)
-  res.json({"STATUS": "200 OK"});
-});
-
-/* DELETE delete the entire dog collection */
-router.delete('/dogs/', function(req, res, next) {
-  dogs = [];
-  res.json({"STATUS": "200 OK"});
-});
-
-
-/* GET a specific dog */
-router.get('/dogs/:id', function(req, res, next) {
-  var i = 0;
-  var dog = null;
-  for(i = 0; i != dogs.length; i++){
-    if(dogs[i].dog_id == req.params.id){
-      dog = dogs[i];
-      break;
-    }
-  }
-  dog !== null ? res.json(dog) : res.json({"STATUS": "404 NOT FOUND"})
-});
-
-/* PUT replace a specific dog with another dog */
-router.put('/dogs/:id', function(req, res, next) {
-  var i = 0;
-  var dog = null;
-  for(i = 0; i != dogs.length; i++){
-    if(dogs[i].dog_id == req.params.id){
-      dog = dogs[i];
-      break;
-    }
-  }
-  if(dog !== null){
-    dog.dog_name = req.body['dog_name']
-    res.json({"STATUS": "200 OK"});
-  } else {
-    res.json({"STATUS": "404 NOT FOUND"});
-  }
-});
-
-/* DELETE a specific dog from the collection */
-router.delete('/dogs/:id', function(req, res, next) {
-  var i = 0;
-  for(i = 0; i != dogs.length; i++){
-    if(dogs[i].dog_id == req.params.id){
-      dogs.splice(i, 1);
-      return res.json({"STATUS": "200 OK"});
-    }
-  }
-  return res.json({"STATUS": "404 NOT FOUND"});
-});
-
 
 module.exports = router;
