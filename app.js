@@ -14,6 +14,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
+//var msgObj = require('./MTTypes');
 
 var app = express();
 

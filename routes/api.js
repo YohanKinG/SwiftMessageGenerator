@@ -1,20 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var fs = require("fs");
+var msgObj = require("./MTTypes.json");
 
 var swiftMsg = "";
-
-var block1 = ""; 
-var block2 = "";
-var block3 = "";
-var block4 = "";
-var block5 = "";
-
-var isTrueBlock1 = false;
-var isTrueBlock2 = false;
-var isTrueBlock3 = false;
-var isTrueBlock4 = false;
-var isTrueBlock5 = false;
 
 var mtTypes = [
   {
@@ -64,34 +53,39 @@ var mtFieldSpecification = [
   },
 ];
 
-if(isTrueBlock1){
-  var ContentBlock1 
+function createMsg(msgObj){
+  if(msgObj.isTrueBlock1){
+  var ContentBlock1 = `{1:${msgObj.block1}}`;
   swiftMsg = swiftMsg.concat(ContentBlock1);
-}
-if(isTrueBlock2){
-  var ContentBlock2
+  }
+  if(msgObj.isTrueBlock2){
+  var ContentBlock2 = `{2:${msgObj.mtId}${msgObj.block2}}`;
   swiftMsg = swiftMsg.concat(ContentBlock2);
-}
-if(isTrueBlock3){
-  var ContentBlock3
+  }
+  if(msgObj.isTrueBlock3){
+  var ContentBlock3 = "";
   swiftMsg = swiftMsg.concat(ContentBlock3);
-}
-if(isTrueBlock4){
-  var ContentBlock4
+  }
+  if(msgObj.isTrueBlock4){
+  var ContentBlock4 = "";
   swiftMsg = swiftMsg.concat(ContentBlock4);
-}
-if(isTrueBlock5){
-  var ContentBlock5
+  }
+  if(msgObj.isTrueBlock5){
+  var ContentBlock5 = "";
   swiftMsg = swiftMsg.concat(ContentBlock5);
+  }
 }
 
 /* Get the JSON file */
 router.get('/msg/', function(req, res, next) {
+  console.log("init");
   var stream = fs.createWriteStream("./swiftMsg.txt");
-  stream.once('open',function(){
-    stream.write("Message");
+  stream.once('open',function(fd){
+    stream.write(swiftMsg);
     stream.end();
   });
+  createMsg(msgObj);
+  res.json({"STATUS": "200 OK"});
 });
 
 module.exports = router;
