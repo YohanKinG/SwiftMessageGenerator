@@ -2,19 +2,22 @@
 	"isTrueBlock1": true,
 	"isTrueBlock2": true,
 	"isTrueBlock3": false,
-	"isTrueBlock4": false,
+	"isTrueBlock4": true,
 	"isTrueBlock5": false,
 	"mtId": "700",
 	"block1": "F01YOURCODEZABC1234567890",
 	"block2": "YOURBANKXJKLU3003",
-	"specification": [{
+	"specification": [
+		{
 		"id": "20",
 		"Detail": "123123"
-	}, {
+		}, 
+		{
 		"id": "50",
 		"Detail": "Name1\nAddress1"
-	}, {
+		}, 
+		{
 		"id": "59",
 		"Detail": "Name2\nAddress2"
-	}]
+		}]
 }
