@@ -67,15 +67,17 @@ function createMsg(msgObj){
     swiftMsg = swiftMsg.concat(ContentBlock3);
   }
   if(msgObj.isTrueBlock4){
+    //console.log('insideif');
     var ContentBlock4 = '{4:';
-    for (var key in msgObj.specification){
-        ContentBlock4.concat('\n');
-        ContentBlock4.concat(key.id+':'+key.Detail);        
-    }
-    swiftMsg = swiftMsg.concat(ContentBlock4+'}');
+    msgObj.specification.forEach(function(item){
+      ContentBlock4 = ContentBlock4+('\n'+item.id+':'+item.Detail);
+    });
+    ContentBlock4 = ContentBlock4 + ('\n-}');
+    swiftMsg = swiftMsg.concat(ContentBlock4);
+    console.log(swiftMsg);
   }
   if(msgObj.isTrueBlock5){
-    var ContentBlock5 = ``;
+    var ContentBlock5 = '';
     swiftMsg = swiftMsg.concat(ContentBlock5);
   }
 }
@@ -84,7 +86,7 @@ function createMsg(msgObj){
 router.get('/msg/', function(req, res, next) {
   createMsg(msgObj);
   var stream = fs.createWriteStream("./swiftMsg.txt");
-  stream.once('open',function(){
+  stream.once('open',function(fd){
     stream.write(swiftMsg);
     stream.end();
   });
