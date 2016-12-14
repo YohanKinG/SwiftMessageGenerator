@@ -5,54 +5,6 @@ var msgObj = require("./MTTypes.json");
 
 var swiftMsg = "";
 
-var mtTypes = [
-  {
-    "id": "700",
-    "description": "Issue of a Documentary Credit"
-  },
-  {
-    "id": "720",
-    "description": "Transfer of a Documentary Credit"
-  },
-  {
-    "id": "730",
-    "description": "Acknowledgment"
-  }
-];
-
-var mtFieldSpecification = [
-  {
-    "mtId": "700",
-    "fieldId": "20",
-    "description": "Documentary Credit Number"
-  },
-  {
-    "mtId": "700",
-    "fieldId": "50",
-    "description": "Applicant"
-  },
-  {
-    "mtId": "700",
-    "fieldId": "59",
-    "description": "Beneficiary"
-  },
-  {
-    "mtId": "720",
-    "fieldId": "20",
-    "description": "Documentary Credit Number"
-  },
-  {
-    "mtId": "720",
-    "fieldId": "50",
-    "description": "Applicant"
-  },
-  {
-    "mtId": "720",
-    "fieldId": "59",
-    "description": "Beneficiary"
-  },
-];
-
 function createMsg(msgObj){
   if(msgObj.isTrueBlock1){
     var ContentBlock1 = `{1:${msgObj.block1}}`;
@@ -67,7 +19,6 @@ function createMsg(msgObj){
     swiftMsg = swiftMsg.concat(ContentBlock3);
   }
   if(msgObj.isTrueBlock4){
-    //console.log('insideif');
     var ContentBlock4 = '{4:';
     msgObj.specification.forEach(function(item){
       ContentBlock4 = ContentBlock4+('\n'+item.id+':'+item.Detail);
@@ -90,7 +41,11 @@ router.get('/msg/', function(req, res, next) {
     stream.write(swiftMsg);
     stream.end();
   });
-  res.json({"STATUS": "200 OK"});
+  res.json({"Status":"Swift Message Genarated"});
+  res.setHeader('Content-disposition', 'attachment; filename=jsonFile.txt');
+  res.setHeader('Content-Type', 'text/plain');
+  res.download(__dirname + './swiftMsg.txt');
+  swiftMsg = "";
 });
 
 module.exports = router;
