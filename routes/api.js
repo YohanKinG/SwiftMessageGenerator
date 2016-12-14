@@ -41,11 +41,7 @@ router.get('/msg/', function(req, res, next) {
     stream.write(swiftMsg);
     stream.end();
   });
-  res.json({"Status":"Swift Message Genarated"});
-  res.setHeader('Content-disposition', 'attachment; filename=jsonFile.txt');
-  res.setHeader('Content-Type', 'text/plain');
-  res.download(__dirname + './swiftMsg.txt');
-  swiftMsg = "";
+  res.json({"STATUS": "200 OK"});
 });
 
 module.exports = router;
